@@ -1,4 +1,4 @@
-name: Run Python Package Tests
+name: Entire Workflow
 
 on:
   push:
@@ -44,3 +44,4 @@ jobs:
           python setup.py sdist bdist_wheel
           twine upload dist/*
         if: ${{ success() }}
+
