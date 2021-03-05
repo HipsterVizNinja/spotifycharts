@@ -16,27 +16,26 @@ jobs:
       - uses: actions/checkout@v2
 
       - name: Install Python 3.9
-        if: ${{ success() }}
         uses: actions/setup-python@v2
         with:
           python-version: 3.9
         run:
           - python -m pip install --upgrade pip
+        if: ${{ success() }}
 
       - name: Lint with flake8
-        if: ${{ success() }}
         run: |
           pip install flake8
           flake8 . --count --select=E9,F63,F7,F82 --show-source --statistics
+        if: ${{ success() }}
 
       - name: Test with pytest
-        if: ${{ success() }}
         run: |
           pip install pytest
           pytest
+        if: ${{ success() }}
 
       - name: Build and publish the package on PyPI
-        if: ${{ success() }}
         env:
           TWINE_USERNAME: ${{ secrets.PYPI_USERNAME }}
           TWINE_PASSWORD: ${{ secrets.PYPI_PASSWORD }}
@@ -44,3 +43,12 @@ jobs:
           pip install setuptools wheel
           python setup.py sdist bdist_wheel
           twine upload dist/*
+        if: ${{ success() }}
+
+      - name: Build and publish the applicaton on DockerHub
+        uses: docker/build-push-action@v1
+          with:
+            DOCKERHUB_USERNAME: ${{ secrets.DOCKERHUB_USERNAME }}
+            DOCKERHUB_PASSWORD: ${{ secrets.DOCKERHUB_PASSWORD }}
+            repository: arthurmeltonyan/spotifycharts
+        if: ${{ success() }}
