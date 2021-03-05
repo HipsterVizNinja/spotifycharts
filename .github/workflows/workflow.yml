@@ -44,11 +44,3 @@ jobs:
           python setup.py sdist bdist_wheel
           twine upload dist/*
         if: ${{ success() }}
-
-      - name: Build and publish the applicaton on DockerHub
-        uses: docker/build-push-action@v1
-          with:
-            DOCKERHUB_USERNAME: ${{ secrets.DOCKERHUB_USERNAME }}
-            DOCKERHUB_PASSWORD: ${{ secrets.DOCKERHUB_PASSWORD }}
-            repository: arthurmeltonyan/spotifycharts
-        if: ${{ success() }}
