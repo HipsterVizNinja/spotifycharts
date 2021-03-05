@@ -120,8 +120,7 @@ class ChartDownloader:
         extension = settings.FILE_EXTENSION
         for region_name, region_code in regions_items:
             file_name = f'{self.name}_{self.periodicity}_charts_from_{begin_date}_to_{end_date}.{extension}'
-            directory_path = pathlib.Path(self.directory_path).joinpath('spotify_charts',
-                                                                        self.name,
+            directory_path = pathlib.Path(self.directory_path).joinpath(self.name,
                                                                         self.periodicity,
                                                                         region_name)
             directory_path.mkdir(parents=True,
@@ -158,6 +157,7 @@ class ChartDownloader:
                 if not chart.empty:
                     chart['region_name'] = region_name
                     chart['date'] = date
+                    chart['date'] = pd.to_datetime(chart['date'])
             if downloaded_charts:
                 data = region_charts.append(downloaded_charts,
                                             sort=True)
@@ -187,14 +187,19 @@ class ChartDownloader:
         end_date = self.end_date.format(settings.FILE_DATE_FORMAT)
         extension = settings.FILE_EXTENSION
         file_name = f'{self.name}_{self.periodicity}_charts_from_{begin_date}_to_{end_date}.{extension}'
-        directory_path = pathlib.Path(self.directory_path).joinpath('spotify_charts',
-                                                                    self.name,
+        directory_path = pathlib.Path(self.directory_path).joinpath(self.name,
                                                                     self.periodicity,
                                                                     region_name)
         file_path = directory_path.joinpath(file_name)
         charts = pd.read_csv(file_path,
                              sep=settings.FILE_DELIMITER,
                              encoding=settings.FILE_ENCODING)
+        charts['date'] = pd.to_datetime(charts['date'])
+        charts['track_position'] = pd.to_numeric(charts['track_position'],
+                                                 downcast='unsigned')
+        if self.name == 'top200':
+            charts['stream_count'] = pd.to_numeric(charts['stream_count'],
+                                                   downcast='unsigned')
         return charts
 
     @property

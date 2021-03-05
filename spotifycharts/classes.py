@@ -43,7 +43,7 @@ class RegionNames(list):
                  region_names):
         regions = sc.download_regions(name)
         if set(region_names).issubset(regions.keys()):
-            super().__init__(sorted(region_names))
+            super().__init__(sorted(set(region_names)))
         else:
             raise exceptions.ArgumentTypeError(settings.REGION_NAME_ERROR)
 
@@ -150,10 +150,9 @@ class Chart(pd.DataFrame):
                                 skiprows=None,
                                 header=0,
                                 names=settings.VIRAL50_CHART_COLUMN_NAMES)
-            chart.track_position = pd.to_numeric(chart.track_position)
-            chart.track_name = chart.track_name.str.strip()
-            chart.artist_name = chart.artist_name.str.strip()
-            chart.track_url = chart.track_url.str.strip()
+            chart['track_name'] = chart['track_name'].str.lower().str.strip()
+            chart['artist_name'] = chart['artist_name'].str.lower().str.strip()
+            chart['track_url'] = chart['track_url'].str.strip()
             logger.info(f'{settings.LOG_CHART_DOWNLOAD_INFO}: {url}')
             super().__init__(chart)
         elif top200_chart_file_header == settings.TOP200_CHART_FILE_HEADER:
@@ -163,11 +162,9 @@ class Chart(pd.DataFrame):
                                 skiprows=0,
                                 header=1,
                                 names=settings.TOP200_CHART_COLUMN_NAMES)
-            chart.track_position = pd.to_numeric(chart.track_position)
-            chart.track_name = chart.track_name.str.strip()
-            chart.artist_name = chart.artist_name.str.strip()
-            chart.stream_count = pd.to_numeric(chart.stream_count)
-            chart.track_url = chart.track_url.str.strip()
+            chart['track_name'] = chart['track_name'].str.lower().str.strip()
+            chart['artist_name'] = chart['artist_name'].str.lower().str.strip()
+            chart['track_url'] = chart['track_url'].str.strip()
             logger.info(f'{settings.LOG_CHART_DOWNLOAD_INFO}: {url}')
             super().__init__(chart)
         else:
