@@ -22,8 +22,7 @@ jobs:
         if: ${{ success() }}
 
       - name: Install dependencies
-        run:
-          - python -m pip install --upgrade pip
+        run: python -m pip install --upgrade pip
         if: ${{ success() }}
 
       - name: Lint with flake8
