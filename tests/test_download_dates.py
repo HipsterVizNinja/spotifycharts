@@ -23,7 +23,7 @@ def test_download_dates(name,
                         region_name):
     region_name = region_name.replace(' ', '_')
     file_name = f'{name}_{periodicity}_{region_name}_dates.csv'
-    directory_path = pathlib.Path('tests').joinpath('test_download_dates',
+    directory_path = pathlib.Path('tests').joinpath('dates',
                                                     'tested',
                                                     name,
                                                     periodicity)

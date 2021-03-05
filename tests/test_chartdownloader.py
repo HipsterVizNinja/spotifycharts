@@ -23,7 +23,7 @@ def test_chartdownloader(name,
                          begin_date,
                          end_date,
                          cpu_count):
-    tested_directory_path = pathlib.Path('tests').joinpath('test_chartdownloader',
+    tested_directory_path = pathlib.Path('tests').joinpath('charts',
                                                            'tested')
     tested = sc.ChartDownloader(name=name,
                                 periodicity=periodicity,
@@ -32,7 +32,7 @@ def test_chartdownloader(name,
                                 end_date=end_date,
                                 cpu_count=cpu_count,
                                 directory_path=tested_directory_path)
-    untested_directory_path = pathlib.Path('tests').joinpath('test_chartdownloader',
+    untested_directory_path = pathlib.Path('tests').joinpath('charts',
                                                              'untested')
     untested = sc.ChartDownloader(name=name,
                                   periodicity=periodicity,

@@ -14,7 +14,7 @@ test_samples = ['viral50',
                          test_samples)
 def test_download_regions(name):
     file_name = f'{name}_regions.csv'
-    directory_path = pathlib.Path('tests').joinpath('test_download_regions',
+    directory_path = pathlib.Path('tests').joinpath('regions',
                                                     'tested',
                                                     name)
     directory_path.mkdir(parents=True,
